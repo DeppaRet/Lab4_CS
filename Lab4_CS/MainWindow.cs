@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace Lab4_CS
 {
   public partial class MainWindow : Form
   {
+    static string path = ConfigurationManager.AppSettings.Get("DataBasePath");
     DataTable table = new DataTable();
     DataSet ds = new DataSet();
-    SQLiteConnection conn = new SQLiteConnection("Data Source = Lab4.db; Version=3;");
+    SQLiteConnection conn = new SQLiteConnection("Data Source =" + path + "; Version=3;");
     SQLiteDataAdapter adapter = new SQLiteDataAdapter();
+
     public MainWindow()
     {
       InitializeComponent();
@@ -24,39 +21,14 @@ namespace Lab4_CS
 
     public void openDatabase(string cmd)
     {
-      using (SQLiteConnection Connect = new SQLiteConnection(@"Data Source=Lab4.db; Version=3;"))
+      using (SQLiteConnection Connect = new SQLiteConnection("Data Source =" + path + "; Version=3;")) // @"Data Source=Lab4.db; Version=3;"
       {
-        Connect.Open();
-        adapter = new SQLiteDataAdapter(cmd, Connect);
-        Connect.Close();
-        ds = new DataSet();
-        adapter.Fill(ds);
+        ds = Work.openDatabase(cmd);
         Table.DataSource = ds.Tables[0];
         Table.Columns["id"].ReadOnly = true;
       }
     }
-    
-    public void insertDB(string cmd)
-    {
-      using (SQLiteConnection Connect = new SQLiteConnection(@"Data Source=Lab4.db; Version=3;"))
-      {
-        SQLiteCommand Command = new SQLiteCommand(cmd, Connect);
-        Connect.Open();
-        Command.ExecuteNonQuery();
-        Connect.Close();
-      }
-    }
 
-    public void updateDB(string cmd)
-    {
-      using (SQLiteConnection Connect = new SQLiteConnection(@"Data Source=Lab4.db; Version=3;"))
-      {
-        SQLiteCommand Command = new SQLiteCommand(cmd, Connect);
-        Connect.Open();
-        Command.ExecuteNonQuery();
-        Connect.Close();
-      }
-    }
     private void MainWindow_Load(object sender, EventArgs e)
     {
 
@@ -99,6 +71,7 @@ namespace Lab4_CS
 
     private void ChooseTable_SelectedIndexChanged(object sender, EventArgs e)
     {
+      WhatToDo.Enabled = true;
       DataSet ds = new DataSet();
       string command = " ";
       SQLiteDataAdapter da = new SQLiteDataAdapter(command, conn);
@@ -108,8 +81,6 @@ namespace Lab4_CS
         {
           command = "SELECT * FROM Athlete";
           openDatabase(command);
-         // da.Fill(ds);
-         // Table.DataSource = ds.Tables[0].DefaultView;
         }
         catch (Exception ex)
         {
@@ -140,123 +111,117 @@ namespace Lab4_CS
           MessageBox.Show(ex.Message);
         }
       }
-    }
-
-    private void checkAth_CheckedChanged(object sender, EventArgs e)
-    {
-      Athlete.Enabled = true;
-      Result.Enabled = false;
-      Sport.Enabled = false;
-      checkRes.Checked = false;
-      checkSport.Checked = false;
-    }
-
-    private void checkRes_CheckedChanged(object sender, EventArgs e)
-    {
-      Result.Enabled = true;
-      Athlete.Enabled = false;
-      Sport.Enabled = false;
-      checkAth.Checked = false;
-      checkSport.Checked = false;
-    }
-
-    private void checkSport_CheckedChanged(object sender, EventArgs e)
-    {
-      Sport.Enabled = true;
-      Athlete.Enabled = false;
-      Result.Enabled = false;
-      checkRes.Checked = false;
-      checkAth.Checked = false;
+      if (ChooseTable.Text == "Спортсмен")
+      {
+        Athlete.Enabled = true;
+        Result.Enabled = false;
+        Sport.Enabled = false;
+      }
+      else if (ChooseTable.Text == "Результат")
+      {
+        Result.Enabled = true;
+        Athlete.Enabled = false;
+        Sport.Enabled = false;
+      }
+      else if (ChooseTable.Text == "Вид спорта")
+      {
+        Sport.Enabled = true;
+        Athlete.Enabled = false;
+        Result.Enabled = false;
+      }
     }
 
     private void AddAth_Click(object sender, EventArgs e)
     {
       if (WhatToDo.Text == "Добавить")
       {
-        string cmd = String.Format("Insert into Athlete (id, name, gender, country, category, score) values ({0}, '{1}', '{2}', '{3}', {4}, {5})", idAth.Text, NameAth.Text, Gender.Text, CountryAth.Text, Category.Text, Score.Text);
+        
         try
         {
-          insertDB(cmd);
+          Work.AddAth(NameAth.Text, Gender.Text, CountryAth.Text, Category.Text, Score.Text);
           MessageBox.Show("Запись добавлена.");
         }
         catch (Exception ex)
         {
-          MessageBox.Show(ex.Message);
+          MessageBox.Show(ex.Message, "Проверьте правильность ввода");
         }
       }
       else if (WhatToDo.Text == "Изменить")
       {
-        string cmd = String.Format("update Athlete set name = '{1}', gender = '{2}', country = '{3} ', category = {4}, score = {5} where id = {0};", idAth.Text, NameAth.Text, Gender.Text, CountryAth.Text, Category.Text, Score.Text);
         try
         {
-          updateDB(cmd);
+          Work.ChangeAth(idAth.Text, NameAth.Text, Gender.Text, CountryAth.Text, Category.Text, Score.Text);
           MessageBox.Show("Запись изменена.");
         }
         catch (Exception ex)
         {
-          MessageBox.Show(ex.Message);
+          MessageBox.Show(ex.Message, "Проверьте правильность ввода");
         }
       }
+      string command = "SELECT * FROM Athlete";
+      openDatabase(command);
     }
 
     private void AddRes_Click(object sender, EventArgs e)
     {
+     
       if (WhatToDo.Text == "Добавить")
       {
-        string cmd = String.Format("Insert into Results (id, contest, country, organisator, score, kind_of_sport) values ({0}, '{1}', '{2}', '{3}', {4}, {5})", idRes.Text, NameRes.Text, CountryRes.Text, OrgRes.Text, ResultRes.Text, KindOfSportRes.Text);
         try
         {
-          insertDB(cmd);
+          Work.AddRes(NameRes.Text, CountryRes.Text, OrgRes.Text, ResultRes.Text, KindOfSportRes.Text);
           MessageBox.Show("Запись добавлена.");
         }
         catch (Exception ex)
         {
-          MessageBox.Show(ex.Message);
+          MessageBox.Show(ex.Message, "Проверьте правильность ввода");
         }
       }
       else if (WhatToDo.Text == "Изменить")
       {
-        string cmd = String.Format("update Results set contest = '{1}', country = '{2}', organisator = '{3}', score = {4}, kind_of_sport = {5} where id = {0};", idRes.Text, NameRes.Text, CountryRes.Text, OrgRes.Text, ResultRes.Text, KindOfSportRes.Text);
+        
         try
         {
-          updateDB(cmd);
+          Work.ChangeRes(idRes.Text, NameRes.Text, CountryRes.Text, OrgRes.Text, ResultRes.Text, KindOfSportRes.Text);
           MessageBox.Show("Запись изменена.");
         }
         catch (Exception ex)
         {
-          MessageBox.Show(ex.Message);
+          MessageBox.Show(ex.Message, "Проверьте правильность ввода");
         }
       }
+      string command = "SELECT * FROM Results";
+      openDatabase(command);
     }
 
     private void AddSport_Click(object sender, EventArgs e)
     {
       if (WhatToDo.Text == "Добавить")
       {
-        string cmd = String.Format("Insert into SportType (id, name, unit, record, date) values ({0}, '{1}', '{2}', {3}, '{4}')", idSport.Text, NameSport.Text, UnitSport.Text, RecordSport.Text, DateRecSport.Text);
         try
         {
-          insertDB(cmd);
+          Work.AddSport(NameSport.Text, UnitSport.Text, RecordSport.Text, DateRecSport.Text);
           MessageBox.Show("Запись добавлена.");
         }
         catch (Exception ex)
         {
-          MessageBox.Show(ex.Message);
+          MessageBox.Show(ex.Message, "Проверьте правильность ввода");
         }
       }
       else if (WhatToDo.Text == "Изменить")
       {
-        string cmd = String.Format("update SportType set name = '{1}', unit = '{2}', record = {3}, date = '{4}' where id = {0};", idSport.Text, NameSport.Text, UnitSport.Text, RecordSport.Text, DateRecSport.Text);
-        try
+        try 
         {
-          updateDB(cmd);
+          Work.ChangeSport(idSport.Text, NameSport.Text, UnitSport.Text, RecordSport.Text, DateRecSport.Text);
           MessageBox.Show("Запись изменена.");
         }
         catch (Exception ex)
         {
-          MessageBox.Show(ex.Message);
+          MessageBox.Show(ex.Message, "Проверьте правильность ввода");
         }
       }
+      string command = "SELECT * FROM SportType";
+      openDatabase(command);
     }
 
     private void Clean_Click(object sender, EventArgs e)
@@ -270,16 +235,59 @@ namespace Lab4_CS
       Score.Clear();
       NameRes.Clear();
       CountryRes.Clear();
-      OrgRes.Clear(); 
-      ResultRes.Clear(); 
+      OrgRes.Clear();
+      ResultRes.Clear();
       KindOfSportRes.Clear();
       idSport.Clear();
       NameSport.Clear();
       UnitSport.Clear();
       RecordSport.Clear();
-      DateRecSport.Clear();
+
+    }
+
+    private void Table_CellClick(object sender, DataGridViewCellEventArgs e)
+    {
+      if (ChooseTable.Text == "Спортсмен")
+      {
+        idAth.Text = Table.CurrentRow.Cells[0].Value.ToString();
+        NameAth.Text = Table.CurrentRow.Cells[1].Value.ToString();
+        Gender.Text = Table.CurrentRow.Cells[2].Value.ToString();
+        CountryAth.Text = Table.CurrentRow.Cells[3].Value.ToString();
+        Category.Text = Table.CurrentRow.Cells[4].Value.ToString();
+        Score.Text = Table.CurrentRow.Cells[5].Value.ToString();
+      }
+      else if (ChooseTable.Text == "Результат")
+      {
+        idRes.Text = Table.CurrentRow.Cells[0].Value.ToString();
+        NameRes.Text = Table.CurrentRow.Cells[1].Value.ToString();
+        CountryRes.Text = Table.CurrentRow.Cells[2].Value.ToString();
+        OrgRes.Text = Table.CurrentRow.Cells[3].Value.ToString();
+        ResultRes.Text = Table.CurrentRow.Cells[4].Value.ToString();
+        KindOfSportRes.Text = Table.CurrentRow.Cells[5].Value.ToString();
+      }
+      else if (ChooseTable.Text == "Вид спорта")
+      {
+        idSport.Text = Table.CurrentRow.Cells[0].Value.ToString();
+        NameSport.Text = Table.CurrentRow.Cells[1].Value.ToString();
+        UnitSport.Text = Table.CurrentRow.Cells[2].Value.ToString();
+        RecordSport.Text = Table.CurrentRow.Cells[3].Value.ToString();
+        DateRecSport.Text = Table.CurrentRow.Cells[4].Value.ToString();
+      }
+    }
+
+    private void WhatToDo_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      AddAth.Enabled = true;
+      AddRes.Enabled = true;
+      AddSport.Enabled = true;
+      if (WhatToDo.Text == "Изменить")
+      {
+        Help.Visible = true;
+      }
+      else
+      {
+        Help.Visible = false;
+      }
     }
   }
-
-
 }
