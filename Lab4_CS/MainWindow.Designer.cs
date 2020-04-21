@@ -37,11 +37,9 @@
       this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
       this.About = new System.Windows.Forms.ToolStripMenuItem();
       this.groupBox1 = new System.Windows.Forms.GroupBox();
-      this.checkRes = new System.Windows.Forms.CheckBox();
-      this.checkSport = new System.Windows.Forms.CheckBox();
+      this.Clean = new System.Windows.Forms.Button();
       this.Sport = new System.Windows.Forms.GroupBox();
       this.label21 = new System.Windows.Forms.Label();
-      this.DateRecSport = new System.Windows.Forms.TextBox();
       this.label16 = new System.Windows.Forms.Label();
       this.label17 = new System.Windows.Forms.Label();
       this.label18 = new System.Windows.Forms.Label();
@@ -53,6 +51,7 @@
       this.NameSport = new System.Windows.Forms.TextBox();
       this.idSport = new System.Windows.Forms.TextBox();
       this.Result = new System.Windows.Forms.GroupBox();
+      this.KindOfSportRes = new System.Windows.Forms.TextBox();
       this.label12 = new System.Windows.Forms.Label();
       this.ResultRes = new System.Windows.Forms.TextBox();
       this.label9 = new System.Windows.Forms.Label();
@@ -65,8 +64,8 @@
       this.CountryRes = new System.Windows.Forms.TextBox();
       this.NameRes = new System.Windows.Forms.TextBox();
       this.idRes = new System.Windows.Forms.TextBox();
-      this.checkAth = new System.Windows.Forms.CheckBox();
       this.Athlete = new System.Windows.Forms.GroupBox();
+      this.Score = new System.Windows.Forms.TextBox();
       this.label8 = new System.Windows.Forms.Label();
       this.label7 = new System.Windows.Forms.Label();
       this.label6 = new System.Windows.Forms.Label();
@@ -81,11 +80,10 @@
       this.idAth = new System.Windows.Forms.TextBox();
       this.label2 = new System.Windows.Forms.Label();
       this.ChooseTable = new System.Windows.Forms.ComboBox();
-      this.Score = new System.Windows.Forms.TextBox();
-      this.KindOfSportRes = new System.Windows.Forms.TextBox();
-      this.Clean = new System.Windows.Forms.Button();
       this.label1 = new System.Windows.Forms.Label();
       this.WhatToDo = new System.Windows.Forms.ComboBox();
+      this.Help = new System.Windows.Forms.Label();
+      this.DateRecSport = new System.Windows.Forms.DateTimePicker();
       ((System.ComponentModel.ISupportInitialize)(this.Table)).BeginInit();
       this.toolStrip1.SuspendLayout();
       this.groupBox1.SuspendLayout();
@@ -102,6 +100,7 @@
       this.Table.Name = "Table";
       this.Table.Size = new System.Drawing.Size(354, 369);
       this.Table.TabIndex = 0;
+      this.Table.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Table_CellClick);
       // 
       // toolStrip1
       // 
@@ -161,45 +160,30 @@
       // groupBox1
       // 
       this.groupBox1.Controls.Add(this.Clean);
-      this.groupBox1.Controls.Add(this.checkRes);
-      this.groupBox1.Controls.Add(this.checkSport);
       this.groupBox1.Controls.Add(this.Sport);
       this.groupBox1.Controls.Add(this.Result);
-      this.groupBox1.Controls.Add(this.checkAth);
       this.groupBox1.Controls.Add(this.Athlete);
       this.groupBox1.Location = new System.Drawing.Point(370, 55);
       this.groupBox1.Name = "groupBox1";
       this.groupBox1.Size = new System.Drawing.Size(414, 366);
       this.groupBox1.TabIndex = 3;
       this.groupBox1.TabStop = false;
-      this.groupBox1.Text = "Действия";
+      this.groupBox1.Text = "Редактирование";
       // 
-      // checkRes
+      // Clean
       // 
-      this.checkRes.AutoSize = true;
-      this.checkRes.Location = new System.Drawing.Point(142, 22);
-      this.checkRes.Name = "checkRes";
-      this.checkRes.Size = new System.Drawing.Size(78, 17);
-      this.checkRes.TabIndex = 15;
-      this.checkRes.Text = "Результат";
-      this.checkRes.UseVisualStyleBackColor = true;
-      this.checkRes.CheckedChanged += new System.EventHandler(this.checkRes_CheckedChanged);
-      // 
-      // checkSport
-      // 
-      this.checkSport.AutoSize = true;
-      this.checkSport.Location = new System.Drawing.Point(273, 22);
-      this.checkSport.Name = "checkSport";
-      this.checkSport.Size = new System.Drawing.Size(83, 17);
-      this.checkSport.TabIndex = 42;
-      this.checkSport.Text = "Вид спорта";
-      this.checkSport.UseVisualStyleBackColor = true;
-      this.checkSport.CheckedChanged += new System.EventHandler(this.checkSport_CheckedChanged);
+      this.Clean.Location = new System.Drawing.Point(273, 336);
+      this.Clean.Name = "Clean";
+      this.Clean.Size = new System.Drawing.Size(129, 23);
+      this.Clean.TabIndex = 43;
+      this.Clean.Text = "Очистить поля ввода";
+      this.Clean.UseVisualStyleBackColor = true;
+      this.Clean.Click += new System.EventHandler(this.Clean_Click);
       // 
       // Sport
       // 
-      this.Sport.Controls.Add(this.label21);
       this.Sport.Controls.Add(this.DateRecSport);
+      this.Sport.Controls.Add(this.label21);
       this.Sport.Controls.Add(this.label16);
       this.Sport.Controls.Add(this.label17);
       this.Sport.Controls.Add(this.label18);
@@ -216,28 +200,21 @@
       this.Sport.Size = new System.Drawing.Size(402, 91);
       this.Sport.TabIndex = 2;
       this.Sport.TabStop = false;
-      this.Sport.Text = "Добавить вид спорта";
+      this.Sport.Text = "Вид спорта";
       // 
       // label21
       // 
       this.label21.AutoSize = true;
-      this.label21.Location = new System.Drawing.Point(125, 13);
+      this.label21.Location = new System.Drawing.Point(116, 13);
       this.label21.Name = "label21";
       this.label21.Size = new System.Drawing.Size(111, 13);
       this.label21.TabIndex = 41;
       this.label21.Text = "Единицы измерения";
       // 
-      // DateRecSport
-      // 
-      this.DateRecSport.Location = new System.Drawing.Point(327, 30);
-      this.DateRecSport.Name = "DateRecSport";
-      this.DateRecSport.Size = new System.Drawing.Size(69, 20);
-      this.DateRecSport.TabIndex = 40;
-      // 
       // label16
       // 
       this.label16.AutoSize = true;
-      this.label16.Location = new System.Drawing.Point(324, 14);
+      this.label16.Location = new System.Drawing.Point(277, 14);
       this.label16.Name = "label16";
       this.label16.Size = new System.Drawing.Size(78, 13);
       this.label16.TabIndex = 39;
@@ -246,7 +223,7 @@
       // label17
       // 
       this.label17.AutoSize = true;
-      this.label17.Location = new System.Drawing.Point(248, 14);
+      this.label17.Location = new System.Drawing.Point(230, 14);
       this.label17.Name = "label17";
       this.label17.Size = new System.Drawing.Size(44, 13);
       this.label17.TabIndex = 38;
@@ -280,6 +257,7 @@
       // 
       // AddSport
       // 
+      this.AddSport.Enabled = false;
       this.AddSport.Location = new System.Drawing.Point(318, 56);
       this.AddSport.Name = "AddSport";
       this.AddSport.Size = new System.Drawing.Size(79, 23);
@@ -290,27 +268,28 @@
       // 
       // RecordSport
       // 
-      this.RecordSport.Location = new System.Drawing.Point(251, 29);
+      this.RecordSport.Location = new System.Drawing.Point(233, 29);
       this.RecordSport.Name = "RecordSport";
-      this.RecordSport.Size = new System.Drawing.Size(70, 20);
+      this.RecordSport.Size = new System.Drawing.Size(41, 20);
       this.RecordSport.TabIndex = 33;
       // 
       // UnitSport
       // 
-      this.UnitSport.Location = new System.Drawing.Point(128, 29);
+      this.UnitSport.Location = new System.Drawing.Point(119, 29);
       this.UnitSport.Name = "UnitSport";
-      this.UnitSport.Size = new System.Drawing.Size(115, 20);
+      this.UnitSport.Size = new System.Drawing.Size(108, 20);
       this.UnitSport.TabIndex = 32;
       // 
       // NameSport
       // 
       this.NameSport.Location = new System.Drawing.Point(48, 30);
       this.NameSport.Name = "NameSport";
-      this.NameSport.Size = new System.Drawing.Size(74, 20);
+      this.NameSport.Size = new System.Drawing.Size(65, 20);
       this.NameSport.TabIndex = 31;
       // 
       // idSport
       // 
+      this.idSport.Enabled = false;
       this.idSport.Location = new System.Drawing.Point(4, 30);
       this.idSport.Name = "idSport";
       this.idSport.Size = new System.Drawing.Size(37, 20);
@@ -337,7 +316,14 @@
       this.Result.Size = new System.Drawing.Size(402, 91);
       this.Result.TabIndex = 1;
       this.Result.TabStop = false;
-      this.Result.Text = "Добавить результат";
+      this.Result.Text = "Результат";
+      // 
+      // KindOfSportRes
+      // 
+      this.KindOfSportRes.Location = new System.Drawing.Point(3, 65);
+      this.KindOfSportRes.Name = "KindOfSportRes";
+      this.KindOfSportRes.Size = new System.Drawing.Size(64, 20);
+      this.KindOfSportRes.TabIndex = 28;
       // 
       // label12
       // 
@@ -402,6 +388,7 @@
       // 
       // AddRes
       // 
+      this.AddRes.Enabled = false;
       this.AddRes.Location = new System.Drawing.Point(318, 55);
       this.AddRes.Name = "AddRes";
       this.AddRes.Size = new System.Drawing.Size(79, 23);
@@ -433,21 +420,11 @@
       // 
       // idRes
       // 
+      this.idRes.Enabled = false;
       this.idRes.Location = new System.Drawing.Point(4, 29);
       this.idRes.Name = "idRes";
       this.idRes.Size = new System.Drawing.Size(37, 20);
       this.idRes.TabIndex = 14;
-      // 
-      // checkAth
-      // 
-      this.checkAth.AutoSize = true;
-      this.checkAth.Location = new System.Drawing.Point(4, 22);
-      this.checkAth.Name = "checkAth";
-      this.checkAth.Size = new System.Drawing.Size(82, 17);
-      this.checkAth.TabIndex = 14;
-      this.checkAth.Text = "Спортсмен";
-      this.checkAth.UseVisualStyleBackColor = true;
-      this.checkAth.CheckedChanged += new System.EventHandler(this.checkAth_CheckedChanged);
       // 
       // Athlete
       // 
@@ -470,7 +447,14 @@
       this.Athlete.Size = new System.Drawing.Size(402, 91);
       this.Athlete.TabIndex = 0;
       this.Athlete.TabStop = false;
-      this.Athlete.Text = "Добавить спортсмена";
+      this.Athlete.Text = "Спортсмена";
+      // 
+      // Score
+      // 
+      this.Score.Location = new System.Drawing.Point(341, 36);
+      this.Score.Name = "Score";
+      this.Score.Size = new System.Drawing.Size(55, 20);
+      this.Score.TabIndex = 6;
       // 
       // label8
       // 
@@ -528,6 +512,7 @@
       // 
       // AddAth
       // 
+      this.AddAth.Enabled = false;
       this.AddAth.Location = new System.Drawing.Point(317, 61);
       this.AddAth.Name = "AddAth";
       this.AddAth.Size = new System.Drawing.Size(79, 23);
@@ -570,6 +555,7 @@
       // 
       // idAth
       // 
+      this.idAth.Enabled = false;
       this.idAth.Location = new System.Drawing.Point(3, 35);
       this.idAth.Name = "idAth";
       this.idAth.Size = new System.Drawing.Size(38, 20);
@@ -598,30 +584,6 @@
       this.ChooseTable.TabIndex = 0;
       this.ChooseTable.SelectedIndexChanged += new System.EventHandler(this.ChooseTable_SelectedIndexChanged);
       // 
-      // Score
-      // 
-      this.Score.Location = new System.Drawing.Point(341, 36);
-      this.Score.Name = "Score";
-      this.Score.Size = new System.Drawing.Size(55, 20);
-      this.Score.TabIndex = 6;
-      // 
-      // KindOfSportRes
-      // 
-      this.KindOfSportRes.Location = new System.Drawing.Point(3, 65);
-      this.KindOfSportRes.Name = "KindOfSportRes";
-      this.KindOfSportRes.Size = new System.Drawing.Size(64, 20);
-      this.KindOfSportRes.TabIndex = 28;
-      // 
-      // Clean
-      // 
-      this.Clean.Location = new System.Drawing.Point(273, 336);
-      this.Clean.Name = "Clean";
-      this.Clean.Size = new System.Drawing.Size(129, 23);
-      this.Clean.TabIndex = 43;
-      this.Clean.Text = "Очистить поля ввода";
-      this.Clean.UseVisualStyleBackColor = true;
-      this.Clean.Click += new System.EventHandler(this.Clean_Click);
-      // 
       // label1
       // 
       this.label1.AutoSize = true;
@@ -634,6 +596,7 @@
       // 
       // WhatToDo
       // 
+      this.WhatToDo.Enabled = false;
       this.WhatToDo.FormattingEnabled = true;
       this.WhatToDo.Items.AddRange(new object[] {
             "Добавить",
@@ -642,12 +605,31 @@
       this.WhatToDo.Name = "WhatToDo";
       this.WhatToDo.Size = new System.Drawing.Size(95, 21);
       this.WhatToDo.TabIndex = 5;
+      this.WhatToDo.SelectedIndexChanged += new System.EventHandler(this.WhatToDo_SelectedIndexChanged);
+      // 
+      // Help
+      // 
+      this.Help.AutoSize = true;
+      this.Help.Location = new System.Drawing.Point(7, 36);
+      this.Help.Name = "Help";
+      this.Help.Size = new System.Drawing.Size(340, 13);
+      this.Help.TabIndex = 6;
+      this.Help.Text = "Для того чтобы быстро изменить запись, выберите ее в таблице";
+      this.Help.Visible = false;
+      // 
+      // DateRecSport
+      // 
+      this.DateRecSport.Location = new System.Drawing.Point(279, 30);
+      this.DateRecSport.Name = "DateRecSport";
+      this.DateRecSport.Size = new System.Drawing.Size(117, 20);
+      this.DateRecSport.TabIndex = 42;
       // 
       // MainWindow
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(800, 450);
+      this.Controls.Add(this.Help);
       this.Controls.Add(this.WhatToDo);
       this.Controls.Add(this.label1);
       this.Controls.Add(this.label2);
@@ -662,7 +644,6 @@
       this.toolStrip1.ResumeLayout(false);
       this.toolStrip1.PerformLayout();
       this.groupBox1.ResumeLayout(false);
-      this.groupBox1.PerformLayout();
       this.Sport.ResumeLayout(false);
       this.Sport.PerformLayout();
       this.Result.ResumeLayout(false);
@@ -713,7 +694,6 @@
         private System.Windows.Forms.TextBox idAth;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox ResultRes;
-    private System.Windows.Forms.TextBox DateRecSport;
     private System.Windows.Forms.Label label16;
     private System.Windows.Forms.Label label17;
     private System.Windows.Forms.Label label18;
@@ -725,14 +705,13 @@
     private System.Windows.Forms.TextBox NameSport;
     private System.Windows.Forms.TextBox idSport;
     private System.Windows.Forms.Label label21;
-    private System.Windows.Forms.CheckBox checkSport;
-    private System.Windows.Forms.CheckBox checkRes;
-    private System.Windows.Forms.CheckBox checkAth;
         private System.Windows.Forms.TextBox KindOfSportRes;
         private System.Windows.Forms.TextBox Score;
         private System.Windows.Forms.Button Clean;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox WhatToDo;
-    }
+        private System.Windows.Forms.Label Help;
+    private System.Windows.Forms.DateTimePicker DateRecSport;
+  }
 }
 
