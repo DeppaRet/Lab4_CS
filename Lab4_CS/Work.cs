@@ -44,6 +44,7 @@ namespace Lab4_CS
       SQLiteConnection Connect = new SQLiteConnection("Data Source =" + path + "; Version=3;");
       SQLiteCommand cmd = Connect.CreateCommand();
       cmd.CommandText = "update Athlete set name = @name, gender = @gend, country = @country, category = @cat, score = @score where id = @id;";
+      cmd.Parameters.AddWithValue("@id", id);
       cmd.Parameters.AddWithValue("@name", name);
       cmd.Parameters.AddWithValue("@gend", gender);
       cmd.Parameters.AddWithValue("@country", country);
