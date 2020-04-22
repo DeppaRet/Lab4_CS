@@ -19,3 +19,4 @@ C:\Users\USER\Desktop\Lab4_CS\Lab4_CS\UnitTest\obj\Debug\UnitTest.csproj.CoreCom
 C:\Users\USER\Desktop\Lab4_CS\Lab4_CS\UnitTest\obj\Debug\UnitTest.csproj.CopyComplete
 C:\Users\USER\Desktop\Lab4_CS\Lab4_CS\UnitTest\obj\Debug\UnitTest.dll
 C:\Users\USER\Desktop\Lab4_CS\Lab4_CS\UnitTest\obj\Debug\UnitTest.pdb
+C:\Users\USER\Desktop\Lab4_CS\Lab4_CS\UnitTest\bin\Debug\UnitTest.dll.config
